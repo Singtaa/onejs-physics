@@ -14,17 +14,25 @@ namespace OneJS.Physics {
     /// </summary>
     static class PhysicsModules {
 #if UNITY_IOS && !UNITY_EDITOR
+        // Static libraries, linked into the player: each keeps only its
+        // table's symbol global, so the two engines never collide.
         const string Rapier3D = "__Internal";
+        const string Rapier2D = "__Internal";
 #else
         const string Rapier3D = "onejs_rapier3d";
+        const string Rapier2D = "onejs_rapier2d";
 #endif
 
         [DllImport(Rapier3D, CallingConvention = CallingConvention.Cdecl)]
         static extern IntPtr onejs_wasm_rapier3d();
 
+        [DllImport(Rapier2D, CallingConvention = CallingConvention.Cdecl)]
+        static extern IntPtr onejs_wasm_rapier2d();
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Register() {
             Add("rapier3d", onejs_wasm_rapier3d);
+            Add("rapier2d", onejs_wasm_rapier2d);
         }
 
 #if UNITY_EDITOR

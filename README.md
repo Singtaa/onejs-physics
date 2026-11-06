@@ -22,8 +22,8 @@ matches the cart's `ojplay`.
   the exact `.wasm` oj loads in the browser, identified by its sha256. oj asks
   OneJS for the module by name and hash, so glue from one release never runs
   against a library from another: a mismatch fails at load, by name.
-- **3D now, 2D next.** `rapier3d` is in this package; `rapier2d` joins it.
-  Navigation (Recast) is a separate package.
+- **2D and 3D.** `rapier3d` serves oj's `useWorld` and `rapier2d` its
+  `useWorld2D`, both Rapier 0.21. Navigation (Recast) is a separate package.
 - **WebGL needs nothing from here.** The browser runs the module itself, and
   this package's code is excluded from WebGL builds.
 
@@ -61,15 +61,15 @@ only modules.
 The libraries are built with WABT's `wasm2c`, with memory bounds checked
 rather than guarded by a signal handler (one would take Mono's and IL2CPP's
 own faults for traps). That costs code size, about 10 MB per architecture for
-the 3D engine, which is why it is a package of its own rather than part of
-OneJS.
+the 3D engine and 8 MB for the 2D one (measured on macOS, 6 Nov 2026), which
+is why it is a package of its own rather than part of OneJS.
 
 ## Binaries live in releases, not in git
 
 Git holds only text. A release builds every library from source and attaches
 one tarball, the complete package, to its GitHub release. Committing the
-libraries instead would add about 85 MB to this repository's history with
-every engine update, carried by every clone from then on.
+libraries instead would add well over 100 MB to this repository's history
+with every engine update, carried by every clone from then on.
 
 ## Building a release
 
@@ -91,10 +91,18 @@ settings for each library, and packs `build/com.singtaa.onejs-physics-<version>.
 ONEJS_DIR=<OneJS checkout> OJPLAY_DIR=<onejs-play checkout> Tests~/parity.sh
 ```
 
-Builds the 3D module for this machine, runs oj's determinism fixture (100
-boxes, 300 steps, every body hashed) through OneJS's engine with the native
-module, and requires the hash every browser gets. It then runs the fixture with
-one box fewer and requires the check to fail on it.
+Builds both modules for this machine and runs a determinism fixture (100
+boxes, 300 steps, every body hashed) through OneJS's engine with each native
+module, requiring the hash WebAssembly gives for the same module:
+
+- `rapier3d` runs oj's own fixture and is held to the hash every browser gets
+  (`14949dab8b8ba85d`), which Node's WebAssembly is required to give as well.
+- `rapier2d` runs `Tests~/falling-boxes-2d.mjs`, the same fixture laid flat,
+  and is held to the hash Node's WebAssembly gives (`3a6e8d5a9fd7056c` on
+  6 Nov 2026), until oj has a 2D fixture with a hash the browsers agree on.
+
+Each is then run with one box fewer, and the check is required to fail on it.
+`Tests~/parity.sh rapier2d` runs one.
 
 ## Licence
 

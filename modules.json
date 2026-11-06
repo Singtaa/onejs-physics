@@ -4,5 +4,11 @@
         "version": "0.21.0",
         "file": "rapier_wasm3d_bg.wasm",
         "sha256": "4e9890fd2df60072f9db06a33e4030221249c1b3687b722b2388c21f09e97551"
+    },
+    "rapier2d": {
+        "npm": "@dimforge/rapier2d-deterministic",
+        "version": "0.21.0",
+        "file": "rapier_wasm2d_bg.wasm",
+        "sha256": "0570d5c822275fbadbbfe4bda0c589b039c2f41259676dc53f6679085601155d"
     }
 }

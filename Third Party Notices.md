@@ -6,9 +6,10 @@ Apache License 2.0 is in `Licenses~/Apache-2.0.txt`.
 
 ## Rapier
 
-Every `onejs_rapier3d` library (and `onejs_rapier2d`, when it joins) is
-generated from Rapier's WebAssembly build as published on npm
-(`@dimforge/rapier3d-deterministic`, the version and sha256 in `modules.json`).
+Every `onejs_rapier3d` and `onejs_rapier2d` library is generated from
+Rapier's WebAssembly build as published on npm
+(`@dimforge/rapier3d-deterministic` and `@dimforge/rapier2d-deterministic`,
+the versions and sha256s in `modules.json`).
 
 - Author: Sébastien Crozet (Dimforge), and Rapier's contributors
 - Licence: Apache License 2.0

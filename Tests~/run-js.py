@@ -50,7 +50,7 @@ def main():
         return 3
     answer = json.loads(text)
     if answer["hash"] == answer["expected"]:
-        print(f"ok    {answer['hash']}, the hash every browser gets")
+        print(f"ok    {answer['hash']}, the expected hash")
         return 0
     print(f"FAIL  {answer['hash']}, expected {answer['expected']}")
     return 1
