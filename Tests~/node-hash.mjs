@@ -1,8 +1,8 @@
 /**
  * Runs a node bundle (bundle.mjs ... node ...) with Node's own WebAssembly on
  * a module file, refusing a file whose sha256 is not the one the glue was
- * vendored against, and prints the fixture's hash. When the bundle names an
- * expected hash (3D's, the browsers'), Node has to give it.
+ * vendored against, and prints the fixture's hash, which has to be the one
+ * the browsers agree on.
  *
  *     node Tests~/node-hash.mjs <bundle.js> <module.wasm>
  */
@@ -20,9 +20,9 @@ if (sha !== answer.sha256) {
     console.error(`${wasm} has sha256 ${sha}; the glue was vendored against ${answer.sha256}`)
     process.exit(1)
 }
-// 3D's bundle carries the hash every browser gives: Node has to give it too,
-// or this is not a reference worth holding a native module to.
-if (answer.expected && answer.hash !== answer.expected) {
+// The bundle carries the hash every browser gives: Node has to give it too,
+// or the fixture and the module do not belong together.
+if (answer.hash !== answer.expected) {
     console.error(`Node's WebAssembly gives ${answer.hash}, not the fixture's ${answer.expected}`)
     process.exit(1)
 }

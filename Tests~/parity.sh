@@ -5,11 +5,9 @@
 # WebAssembly gives. Then the same fixture with one box fewer, which the check
 # has to fail: one that passes it is measuring nothing.
 #
-#   rapier3d  oj's fixture (src/physics3d/parity.mjs), held to the hash Node,
-#             Chrome and workerd give; Node is checked against it here too.
-#   rapier2d  falling-boxes-2d.mjs, held to the hash Node's WebAssembly gives
-#             with the same module, since no 2D hash has been agreed across
-#             browsers yet.
+#   rapier3d, rapier2d  oj's fixtures (src/physics3d/parity.mjs and
+#             physics2d's), held to the hash Node, Chrome and workerd give,
+#             which Node is required to give here too.
 #
 #     ONEJS_DIR=<OneJS checkout> OJPLAY_DIR=<onejs-play checkout> Tests~/parity.sh [rapier3d rapier2d]
 #
@@ -38,10 +36,10 @@ for name in "${MODULES[@]}"; do
     LIB="$LIBDIR/libonejs_$name.$EXT"
     echo "=== $name: WebAssembly in Node ==="
     node "$HERE/Tests~/bundle.mjs" "$OJPLAY_DIR" "$dim" node "$OUT/$name-node.js"
-    EXPECTED="$(node "$HERE/Tests~/node-hash.mjs" "$OUT/$name-node.js" "$HERE/build/npm/$name/$name.wasm")" || { echo "FAIL  Node could not give a reference hash"; STATUS=1; continue; }
-    echo "      $EXPECTED"
-    node "$HERE/Tests~/bundle.mjs" "$OJPLAY_DIR" "$dim" quickjs "$OUT/$name.js" 0 "$EXPECTED"
-    node "$HERE/Tests~/bundle.mjs" "$OJPLAY_DIR" "$dim" quickjs "$OUT/$name-short.js" 1 "$EXPECTED"
+    REFERENCE="$(node "$HERE/Tests~/node-hash.mjs" "$OUT/$name-node.js" "$HERE/build/npm/$name/$name.wasm")" || { echo "FAIL  Node does not give the fixture's hash"; STATUS=1; continue; }
+    echo "      $REFERENCE"
+    node "$HERE/Tests~/bundle.mjs" "$OJPLAY_DIR" "$dim" quickjs "$OUT/$name.js"
+    node "$HERE/Tests~/bundle.mjs" "$OJPLAY_DIR" "$dim" quickjs "$OUT/$name-short.js" 1
     echo "=== $name: the native module in OneJS's engine ==="
     python3 "$HERE/Tests~/run-js.py" "$ENGINE" "$LIB" "$name" "$OUT/$name.js" || STATUS=1
     echo "=== $name: one box fewer, which must fail ==="

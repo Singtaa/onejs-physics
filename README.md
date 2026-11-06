@@ -91,17 +91,13 @@ settings for each library, and packs `build/com.singtaa.onejs-physics-<version>.
 ONEJS_DIR=<OneJS checkout> OJPLAY_DIR=<onejs-play checkout> Tests~/parity.sh
 ```
 
-Builds both modules for this machine and runs a determinism fixture (100
-boxes, 300 steps, every body hashed) through OneJS's engine with each native
-module, requiring the hash WebAssembly gives for the same module:
-
-- `rapier3d` runs oj's own fixture and is held to the hash every browser gets
-  (`14949dab8b8ba85d`), which Node's WebAssembly is required to give as well.
-- `rapier2d` runs `Tests~/falling-boxes-2d.mjs`, the same fixture laid flat,
-  and is held to the hash Node's WebAssembly gives (`3a6e8d5a9fd7056c` on
-  6 Nov 2026), until oj has a 2D fixture with a hash the browsers agree on.
-
-Each is then run with one box fewer, and the check is required to fail on it.
+Builds both modules for this machine and runs oj's determinism fixtures (100
+boxes, 300 steps, every body hashed; `src/physics3d/parity.mjs` and
+`src/physics2d/parity.mjs`) through OneJS's engine with each native module,
+requiring the hash every browser gets: `14949dab8b8ba85d` for 3D and
+`3a6e8d5a9fd7056c` for 2D. Node's WebAssembly is required to give it too, from
+the module this package builds. Each is then run with one box fewer, and the
+check is required to fail on it.
 `Tests~/parity.sh rapier2d` runs one.
 
 ## Licence
