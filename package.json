@@ -1,0 +1,18 @@
+{
+    "name": "com.singtaa.onejs-physics",
+    "version": "0.1.0",
+    "displayName": "OneJS Physics",
+    "description": "Native physics for OneJS outside the browser: the same WebAssembly physics engine oj runs in the browser, compiled to native code for desktop, Android and iOS. Added by ojplay when a cart uses physics.",
+    "unity": "6000.3",
+    "author": {
+        "name": "Singtaa",
+        "url": "https://onejs.com"
+    },
+    "license": "MIT",
+    "documentationUrl": "https://github.com/Singtaa/onejs-physics#readme",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Singtaa/onejs-physics.git"
+    },
+    "keywords": ["onejs", "physics", "quickjs", "webassembly"]
+}

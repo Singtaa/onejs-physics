@@ -1,0 +1,8 @@
+{
+    "rapier3d": {
+        "npm": "@dimforge/rapier3d-deterministic",
+        "version": "0.21.0",
+        "file": "rapier_wasm3d_bg.wasm",
+        "sha256": "4e9890fd2df60072f9db06a33e4030221249c1b3687b722b2388c21f09e97551"
+    }
+}

@@ -1,0 +1,7 @@
+# A release builds these; git holds only text (README "Binaries live in releases").
+/Plugins/
+/Plugins.meta
+/build/
+*.tgz
+node_modules/
+.DS_Store
